@@ -1,0 +1,20 @@
+# fly.toml app configuration file generated for floral-star-5078 on 2023-09-17T15:14:09+02:00
+#
+# See https://fly.io/docs/reference/configuration/ for information about how to use this file.
+#
+
+app = "floral-star-5078"
+primary_region = "ams"
+
+[build]
+
+[env]
+  PORT = "3000"
+
+[http_service]
+  internal_port = 3000
+  force_https = true
+  auto_stop_machines = true
+  auto_start_machines = true
+  min_machines_running = 0
+  processes = ["app"]

@@ -1,13 +1,13 @@
-POST http://localhost:3001/api/persons
+POST https://floral-star-5078.fly.dev/api/persons
 Content-Type: application/json
 
 {
-    "name": "Percival Hondrich",
-    "number": "02-34-8034"
+    "name": "Drug Asanovic",
+    "number": "07-31-30940"
 }
 
 ###
-GET http://localhost:3001/api/persons
+GET https://floral-star-5078.fly.dev/api/persons
 
 ###
-DELETE http://localhost:3001/api/persons/2
+DELETE https://floral-star-5078.fly.dev/api/persons/2
