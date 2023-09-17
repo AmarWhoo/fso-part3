@@ -1,0 +1,13 @@
+POST http://localhost:3001/api/persons
+Content-Type: application/json
+
+{
+    "name": "Percival Hondrich",
+    "number": "02-34-8034"
+}
+
+###
+GET http://localhost:3001/api/persons
+
+###
+DELETE http://localhost:3001/api/persons/2

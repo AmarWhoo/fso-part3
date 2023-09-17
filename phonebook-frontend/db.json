@@ -1,0 +1,29 @@
+{
+  "persons": [
+    {
+      "name": "Arto Hellas",
+      "number": "78-96-0132",
+      "id": 1
+    },
+    {
+      "name": "Al'Gothen Hellscape",
+      "number": "67-89-1390",
+      "id": 6
+    },
+    {
+      "name": "Dan Abramov",
+      "number": "123-12345",
+      "id": 7
+    },
+    {
+      "name": "Mira Marinovich",
+      "number": "33-22-5423",
+      "id": 8
+    },
+    {
+      "name": "Volodymyr Zelenskyy",
+      "number": "049-038821",
+      "id": 10
+    }
+  ]
+}
