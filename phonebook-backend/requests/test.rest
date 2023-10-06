@@ -1,4 +1,4 @@
-POST https://floral-star-5078.fly.dev/api/persons
+POST http://localhost:3001/api/persons
 Content-Type: application/json
 
 {
@@ -7,7 +7,7 @@ Content-Type: application/json
 }
 
 ###
-GET https://floral-star-5078.fly.dev/api/persons
+GET http://localhost:3001/api/persons
 
 ###
-DELETE https://floral-star-5078.fly.dev/api/persons/2
+DELETE http://localhost:3001/api/persons/2
