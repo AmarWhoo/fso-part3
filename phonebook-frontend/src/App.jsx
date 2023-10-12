@@ -51,6 +51,7 @@ const App = () => {
           .then(returnedPerson => {
             setPersons(persons.map(person => person.id !== duplicate.id ? person : returnedPerson ))
           })
+          // Catch block for error handling
           .catch( error => {
             setNotifMessage(`Contact ${personObject.name} has already been removed from the server`)
             setNotifType(false)
@@ -79,6 +80,8 @@ const App = () => {
       setPersons(persons.concat(returnedPerson))
       setNewName('')
       setNewNumber('')
+    }).catch(error => {
+      console.log(error.response.data.error)
     })
   }
 

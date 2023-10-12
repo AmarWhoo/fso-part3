@@ -12,11 +12,15 @@ morgan.token('data', (request, response) => {
   return body
 })
 
+// Error handling
+
 const errorHandler = (error, request, response, next) => {
   console.error(error.message)
 
   if (error.name === 'CastError') {
     return response.status(400).send({ error: 'malformatted id' })
+  } else if (error.name === 'ValidationError') {
+    return response.status(400).send({ error: error.message })
   }
 
   next(error)
@@ -30,15 +34,21 @@ app.use(cors())
 let persons = [
 ]
 
+// Root GET request
+
 app.get('/', (request, response) => {
   response.send('<h1>Welcome Traveler</h1>')
 })
+
+// GET Request for all people in the phonebook
 
 app.get('/api/persons', (request, response) => {
   Person.find({}).then(persons => {
     response.json(persons)
   })
 })
+
+// GET request for general info about the phonebook
 
 app.get('/info', (request, response) => {
   Person.countDocuments().then(result => {
@@ -51,11 +61,15 @@ app.get('/info', (request, response) => {
   })
 })
 
+// GET Specific person info
+
 app.get('/api/persons/:id', (request, response) => {
   Person.findById(request.params.id).then(person => {
     response.json(person)
   })
 })
+
+// DELETE request for a person whos ID is specified
 
 app.delete('/api/persons/:id', (request, response, next) => {
   Person.findByIdAndRemove(request.params.id)
@@ -70,28 +84,24 @@ app.delete('/api/persons/:id', (request, response, next) => {
 //     return randomId
 // }
 
+// Add a person to the phonebook, POST request
+
 app.post('/api/persons', (request, response, next) => {
   const body = request.body
-
-  if(!body.name || !body.number) {
-    return response.status(400).json({
-      error: 'person info missing'
-    })
-  } else if (persons.some( person => person.name === body.name )) {
-    return response.status(400).json({
-      error: 'name must be unique'
-    })
-  }
 
   const person = new Person({
     name: body.name,
     number: body.number
   })
 
-  person.save().then(savedPerson => {
-    response.json(savedPerson)
-  })
+  person.save()
+    .then(savedPerson => {
+      response.json(savedPerson)
+    })
+    .catch(error => next)
 })
+
+// Update person already in the phonebook, POST request
 
 app.put('/api/persons/:id', (request, response) => {
   const body = request.body
