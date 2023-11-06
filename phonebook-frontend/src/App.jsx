@@ -51,15 +51,15 @@ const App = () => {
           .then(returnedPerson => {
             setPersons(persons.map(person => person.id !== duplicate.id ? person : returnedPerson ))
           })
+
           // Catch block for error handling
           .catch( error => {
-            setNotifMessage(`Contact ${personObject.name} has already been removed from the server`)
+            setNotifMessage(error.response.data.error)
             setNotifType(false)
             setTimeout(() => {
               setNotifMessage(null)
               setNotifType(true)
             }, 6000)
-            setPersons(persons.filter(person => person.id !== duplicate.id))
           })
       }
       
@@ -68,21 +68,29 @@ const App = () => {
       return
     }
 
-    setNotifMessage(`Added ${personObject.name} to your phonebook`)
-    setTimeout(() => {
-      setNotifMessage(null)
-    }, 4000)
-
     // Post request to send the newly added person to server
     phonebookService
     .add(personObject)
     .then(returnedPerson => {
+
+      // Notification if person is successfully added to phonebook
+      setNotifMessage(`Added ${personObject.name} to your phonebook`)
+      setTimeout(() => {
+        setNotifMessage(null)
+      }, 4000)
+
       setPersons(persons.concat(returnedPerson))
-      setNewName('')
-      setNewNumber('')
     }).catch(error => {
-      console.log(error.response.data.error)
+      // console.log('Error:', error.response.data.error)
+      setNotifMessage(`Error: ${error.response.data.error}`)
+      setNotifType(false)
+      setTimeout(() => {
+        setNotifMessage(null)
+        setNotifType(true)
+      }, 4000)
     })
+    setNewName('')
+    setNewNumber('')
   }
 
   // Remove the chosen person from the phonebook and the server
@@ -115,10 +123,24 @@ const App = () => {
   return (
     <div>
       <h1>Phonebook</h1>
-      <Notification message={notifMessage} notifType={notifType} />
-      <Search handleFilter={handleFilter} />
-      <AddContact newName={newName} newNumber={newNumber} handleName={handleName} handleNumber={handleNumber} addPerson={addPerson} />
-      <NumbersList persons={filteredPersons} handleRemove={removeContact}/>
+      <Notification
+        message={notifMessage}
+        notifType={notifType}
+      />
+      <Search
+        handleFilter={handleFilter}
+      />
+      <AddContact 
+        newName={newName} 
+        newNumber={newNumber} 
+        handleName={handleName} 
+        handleNumber={handleNumber} 
+        addPerson={addPerson} 
+      />
+      <NumbersList 
+        persons={filteredPersons} 
+        handleRemove={removeContact}
+      />
     </div>
   )
 }
